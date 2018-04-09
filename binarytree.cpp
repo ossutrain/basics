@@ -39,19 +39,34 @@ void printpostorder(struct node *root){
 		cout<<root->data<<"  ";
 	}
 }
-int getheight(struct node* root){
-	if(root == NULL)
-		return 1;
-	else
-		return 1 + max(getheight(root->left),getheight(root->right));
+int checkbalance(struct node* root, bool* balance){
+	if(root == NULL){
+		*balance = true;
+		return 0;
+	}
+	else{
+		//check if left subtree is balanced
+		bool lbal = true;
+		int lheight = checkbalance(root->left, &lbal);
+		if(!lbal){
+			cout<<"left subtree is not balanced\n";
+		}
+		//check if left subtree is balanced
+		bool rbal = true;
+		int rheight = checkbalance(root->right, &rbal);
+		if(!rbal)
+			cout<<"right subtree is not balanced\n";
+		if(rbal && lbal && abs(lheight - rheight)<=1){
+			*balance = true;
+			return 1 + max(lheight,rheight);
+		}
+		else{
+			*balance = false;
+			return 1 + max(lheight,rheight);
+		}
+	}
 }
-bool checkbalance(struct node* root){
-	int x = getheight(root->left);
-	int y = getheight(root->right);
-	if((x>=y && x - y <= 1) || (x<y && y-x<=1))
-		return true;
-	return false;
-}
+
 int main(){
 	T x = 0;
 	struct node *root = NULL;
@@ -67,6 +82,10 @@ int main(){
 	printpreorder(root);
 	cout<<'\n';
 	//printpostorder(root);
-	if(checkbalance(root))
-		cout<<"tree is balanced\n";
+	bool bal = true;
+	int height = checkbalance(root,&bal);
+	if(bal)
+		cout<<"tree is balanced and height is "<<height<<" \n";
+	else
+		cout<<"tree height is "<<height<<" \n";
 }
