@@ -5,27 +5,16 @@
 using std::vector;
 
 int binary_search(const vector<int> &a, int left, int right, int x) {
-  /*base condition
-  if((left == right) && x!=a[left])
-    return -1;*/
-  if(right>left){
-    int mid = (int)(left+right)/2;
-  if(x == a[mid])
-    return mid;
-  else if(x < a[mid])
-    return binary_search(a,left,mid,x);
-  else
-    return binary_search(a,mid+1,right,x);  
-  }
-  else
+  //base condition
+  if(left > right))
     return -1;
-}
-
-int linear_search(const vector<int> &a, int x) {
-  for (size_t i = 0; i < a.size(); ++i) {
-    if (a[i] == x) return i;
-  }
-  return -1;
+  int mid = (int)(left+right)/2;
+  if(x == a[mid])//equal condition
+    return mid;
+  else if(x < a[mid])//less than condition
+    return binary_search(a,left,mid,x);
+  else//greater than condition
+    return binary_search(a,mid+1,right,x);  
 }
 
 int main() {
@@ -42,7 +31,7 @@ int main() {
     std::cin >> b[i];
   }
   for (int i = 0; i < m; ++i) {
-    int left = 0, right = (int)a.size();
+    int left = 0, right = (int)a.size()-1;
     //replace with the call to binary_search when implemented
     std::cout << binary_search(a,left,right, b[i]) << ' ';
   }
