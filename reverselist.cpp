@@ -35,18 +35,41 @@ struct node* reverse(struct node *head){
 	return head;
 }
 
+bool checkcycle(struct node *head){
+	struct node * temp;
+	temp = head->next;
+	while(temp){
+		temp = temp->next;
+		if(temp == head)
+			return 1;
+		else if(temp){
+			head = head->next;
+			temp = temp->next;
+		}
+		else
+			return 0;
+	}
+	return 0;
+}
+
 int main(){
 	struct node * head = NULL;
 	int n;
 	cin>>n;
+	struct node *y = new node;
+	y->data = n;
+	y->next = NULL;
+	head = insertll(head,y);
 	while(n!=1000){
+		cin>>n;
 		struct node *x = new node;
 		x->data = n;
 		x->next = NULL;
 		head = insertll(head,x);
-		cin>>n;
 	}
 	printlist(head);
-	head = reverse(head);
-	printlist(head);
+	//y->next = head;
+	
+	if(checkcycle(head))
+		cout<<"cycle exists";
 }
